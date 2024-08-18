@@ -3,6 +3,7 @@ package com.muratguzel.usingmvvm
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -11,6 +12,7 @@ import com.muratguzel.usingmvvm.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private val viewModel: MainActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,21 +25,17 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        binding.hesaplamaSonucu = "0"
+        viewModel.sonuc.observe(this){sonuc->
+            binding.hesaplamaSonucu = sonuc
 
+        }
     }
 
-    fun sum(alinanSayi1: String, alinanSayi2: String) {
-        val sayi1 = alinanSayi1.toInt()
-        val sayi2 = alinanSayi2.toInt()
-        val sonuc = sayi1 + sayi2
-        binding.hesaplamaSonucu = sonuc.toString()
+    fun sumButtonClicked(alinanSayi1: String, alinanSayi2: String){
+        viewModel.sum(alinanSayi1,alinanSayi2)
     }
 
-    fun subtraction(alinanSayi1: String, alinanSayi2: String) {
-        val sayi1 = alinanSayi1.toInt()
-        val sayi2 = alinanSayi2.toInt()
-        val sonuc = sayi1 - sayi2
-        binding.hesaplamaSonucu = sonuc.toString()
+    fun subtractionButtonClicked(alinanSayi1: String, alinanSayi2: String) {
+        viewModel.subtraction(alinanSayi1,alinanSayi2)
     }
 }
